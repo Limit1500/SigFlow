@@ -1,0 +1,1 @@
+{"version":3,"file":"DeploymentIdentity.d.ts","sourceRoot":"","sources":["../../../src/Prisma/Internal/DeploymentIdentity.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,MAAM,eAAe,CAAC;AACxC,OAAO,KAAK,EAAE,sBAAsB,EAAE,MAAM,cAAc,CAAC;AAE3D,gFAAgF;AAChF,eAAO,MAAM,0BAA0B;QAGnB,MAAM;sBAAoB,MAAM;iGAiBlD,CAAC"}

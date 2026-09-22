@@ -1,0 +1,30 @@
+{
+  "name": "sigflow",
+  "version": "1.0.0",
+  "description": "A lightweight message broker built with Node.js and TypeScript, designed to handle asynchronous communication between distributed services through message queues.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "client": "npx tsx client.ts",
+    "postinstall": "prisma skills sync || exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Limit1500/SigFlow.git"
+  },
+  "keywords": [],
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Limit1500/SigFlow/issues"
+  },
+  "homepage": "https://github.com/Limit1500/SigFlow#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.10.0",
+    "prisma": "^8.0.0-rc.15"
+  }
+}
