@@ -21,10 +21,11 @@
   "devDependencies": {
     "@types/node": "^26.6.2",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+    "typescript": "5.9"
   },
   "dependencies": {
     "@prisma/client": "^7.10.0",
-    "prisma": "^8.0.0-rc.15"
+    "jose": "^6.2.12",
+    "prisma": "^7.10.0"
   }
 }

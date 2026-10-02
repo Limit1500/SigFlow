@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// the sso's id 
+model Users {
+  id Int @id  
+  
+  microservices Microservices[]
+  events Events[]
+}
+
+model Events {
+  id Int @id @default(autoincrement())
+  keyWord String
+  
+  userId Int
+  user Users @relation(fields: [userId], references:[id])
+
+  microservices Microservices[]
+
+  @@unique([userId, keyWord])
+}
+
+model Microservices {
+  id     Int    @id @default(autoincrement())
+  name   String
+  secret String
+
+  userId Int
+  user   Users @relation(fields: [userId], references: [id])
+
+  events Events[]
+
+  @@unique([userId, name])
+  @@unique([name, secret])
+}
