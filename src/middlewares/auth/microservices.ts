@@ -1,13 +1,16 @@
-import DatabaseService from "../../services/database.service.js";
+import DatabaseService from "../../database/database.service.js";
 
-async function authMicroservice(name: string, secret: string) {
+async function authMicroservice(
+  name: string,
+  secret: string
+): Promise<number | null> {
   const response = await DatabaseService.getMicroservice(name, secret);
 
-  if (response === null) {
-    throw new Error("Invalid microservice credentials");
+  if (!response) {
+    return null;
+  } else {
+    return response.id;
   }
-
-  return response.id;
 }
 
 export default authMicroservice;

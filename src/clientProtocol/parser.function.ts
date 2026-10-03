@@ -1,4 +1,4 @@
-import type { ParsedCommands } from "./config.commands.js";
+import type { ParsedCommands } from "./commands.types.js";
 
 function parser(data: string): ParsedCommands {
   const parts = data.split(" ");
@@ -17,15 +17,16 @@ function parser(data: string): ParsedCommands {
     const data = parts.join(" ");
 
     return {
+      type: "BROKER",
       command,
       eventName: identifier,
-      data,
     };
   } else if (command === "ASSIGN_MICROSERVICE") {
     if (parts.length !== 1) {
       throw new Error();
     }
     return {
+      type: "BROKER",
       command,
       microserviceName: identifier,
       eventName: parts[0]!,
@@ -35,6 +36,7 @@ function parser(data: string): ParsedCommands {
       throw new Error();
     }
     return {
+      type: "BROKER",
       command,
       microserviceName: identifier,
       microserviceSecret: parts[0]!,
@@ -44,6 +46,7 @@ function parser(data: string): ParsedCommands {
       throw new Error();
     }
     return {
+      type: "BROKER",
       command,
       microserviceName: identifier,
     };
@@ -52,11 +55,17 @@ function parser(data: string): ParsedCommands {
       throw new Error();
     }
     return {
+      type: "BROKER",
       command,
       eventName: identifier,
     };
   } else {
-    throw new Error();
+    const [command, ...eventInfo] = data.split(" ");
+    return {
+      type: "USER",
+      command: command!,
+      eventInfo: eventInfo.join(" "),
+    };
   }
 }
 

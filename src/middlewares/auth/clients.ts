@@ -1,4 +1,4 @@
-import { publicKeyService } from "../../publicKeys/publicKey.service.js";
+import { publicKeyService } from "../../sso/publicKey.service.js";
 import { jwtVerify, importJWK } from "jose";
 
 type tokenBody = {

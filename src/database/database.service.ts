@@ -1,4 +1,4 @@
-import prisma from "../db.js";
+import prisma from "./db.js";
 
 class DatabaseService {
   static async getMicroservice(name: string, secret: string) {
@@ -80,6 +80,21 @@ class DatabaseService {
         },
       },
     });
+  }
+
+  static async getCommandMicroservices(command: string, userId: number) {
+    const event = await prisma.events.findUnique({
+      where: {
+        userId_keyWord: {
+          userId,
+          keyWord: command,
+        },
+      },
+      include: {
+        microservices: true,
+      },
+    });
+    return event?.microservices ?? [];
   }
 }
 
