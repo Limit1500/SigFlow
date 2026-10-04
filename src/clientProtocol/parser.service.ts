@@ -1,6 +1,6 @@
-import type { ParsedCommands } from "./commands.types.js";
+import type { ConfigCommands, FlagCommand } from "./commands.types.js";
 
-function parser(data: string): ParsedCommands {
+export function configParser(data: string): ConfigCommands {
   const [command, identifier, ...args] = data.trim().split(/\s+/);
 
   if (!command || !identifier) {
@@ -14,7 +14,6 @@ function parser(data: string): ParsedCommands {
       }
 
       return {
-        type: "BROKER",
         command,
         eventName: identifier,
       };
@@ -26,7 +25,6 @@ function parser(data: string): ParsedCommands {
       }
 
       return {
-        type: "BROKER",
         command,
         microserviceName: identifier,
         eventName: args[0]!,
@@ -39,7 +37,6 @@ function parser(data: string): ParsedCommands {
       }
 
       return {
-        type: "BROKER",
         command,
         microserviceName: identifier,
         microserviceSecret: args[0]!,
@@ -54,24 +51,29 @@ function parser(data: string): ParsedCommands {
 
       return command === "DELETE_EVENT"
         ? {
-            type: "BROKER",
             command,
             eventName: identifier,
           }
         : {
-            type: "BROKER",
             command,
             microserviceName: identifier,
           };
     }
 
     default:
-      return {
-        type: "USER",
-        command,
-        eventInfo: [identifier, ...args].join(" "),
-      };
+      throw new Error(`Unknown command: ${command}`);
   }
 }
 
-export default parser;
+export function flagParser(data: string): FlagCommand {
+  const [command, identifier, ...args] = data.trim().split(/\s+/);
+
+  if (!command || !identifier) {
+    throw new Error("Invalid command syntax");
+  }
+
+  return {
+    command,
+    eventInfo: [identifier, ...args].join(" "),
+  };
+}

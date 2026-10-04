@@ -1,6 +1,10 @@
 import net from "node:net";
 import authMicroservice from "../middlewares/auth/microservices.js";
 import { validateCredentials } from "../validation/string.js";
+import { flagParser } from "../clientProtocol/parser.service.js";
+import { handleFlagTask } from "../clientProtocol/commands.service.js";
+import type { FlagCommand } from "../clientProtocol/commands.types.js";
+import DatabaseService from "../database/database.service.js";
 
 export const connectedMicroservices = new Map<number, net.Socket>();
 
@@ -32,6 +36,13 @@ export function startMicroservicesServer() {
           microserviceId = authenticatedId;
 
           connectedMicroservices.set(microserviceId, socket);
+        } else {
+          const message = data.toString().trim();
+          const task: FlagCommand = flagParser(message);
+          const userId = await DatabaseService.getClientIdByMicroservice(
+            microserviceId
+          );
+          await handleFlagTask(task, userId);
         }
       } catch (error: unknown) {
         if (error instanceof Error) {

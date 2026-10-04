@@ -96,6 +96,19 @@ class DatabaseService {
     });
     return event?.microservices ?? [];
   }
+
+  static async getClientIdByMicroservice(microserviceId: number) {
+    const microservice = await prisma.microservices.findUnique({
+      where: {
+        id: microserviceId,
+      },
+      select: {
+        userId: true,
+      },
+    });
+
+    return microservice?.userId ?? null;
+  }
 }
 
 export default DatabaseService;

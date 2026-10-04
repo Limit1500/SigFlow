@@ -1,9 +1,9 @@
 import net from "node:net";
 import authClient from "../middlewares/auth/clients.js";
-import parser from "../clientProtocol/parser.function.js";
-import type { ParsedCommands } from "../clientProtocol/commands.types.js";
-import handleTask from "../services/configCommands.service.js";
+import type { ConfigCommands } from "../clientProtocol/commands.types.js";
 import { validateToken } from "../validation/string.js";
+import { handleConfigTask } from "../clientProtocol/commands.service.js";
+import { configParser } from "../clientProtocol/parser.service.js";
 
 export default function startClientServer() {
   const server = net.createServer((socket) => {
@@ -21,8 +21,8 @@ export default function startClientServer() {
           socket.write("Authentication successful.\n");
         } else {
           const message = data.toString().trim();
-          const task: ParsedCommands = parser(message);
-          await handleTask(task, userId);
+          const task: ConfigCommands = configParser(message);
+          await handleConfigTask(task, userId);
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
