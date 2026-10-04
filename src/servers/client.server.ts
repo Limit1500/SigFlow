@@ -3,36 +3,42 @@ import authClient from "../middlewares/auth/clients.js";
 import parser from "../clientProtocol/parser.function.js";
 import type { ParsedCommands } from "../clientProtocol/commands.types.js";
 import handleTask from "../services/configCommands.service.js";
+import { validateToken } from "../validation/string.js";
 
 export default function startClientServer() {
   const server = net.createServer((socket) => {
-    let token = "";
+    let userId: number | null = null;
 
+    console.log("Client connected");
     socket.write("Insert authentification token: ");
 
     socket.on("data", async (data: Buffer) => {
-      console.log(data);
+      try {
+        if (userId === null) {
+          const token = validateToken(data);
+          userId = await authClient(token);
 
-      const message = data.toString().trim();
-
-      if (token === "") {
-        token = message;
+          socket.write("Authentication successful.\n");
+        } else {
+          const message = data.toString().trim();
+          const task: ParsedCommands = parser(message);
+          await handleTask(task, userId);
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          socket.write(`Error: ${error.message}\n`);
+        } else {
+          socket.write("Error: Unknown error\n");
+        }
       }
-      const { userId: number } = await authClient(token);
-      const task: ParsedCommands = parser(message);
-      handleTask(task, userId);
-    });
-
-    socket.on("connect", () => {
-      console.log("Client connected");
     });
 
     socket.on("end", () => {
       console.log("Client disconnected");
     });
 
-    socket.on("error", () => {
-      console.log("An error occured");
+    socket.on("error", (error) => {
+      console.error("Client connection error:", error.message);
     });
   });
 

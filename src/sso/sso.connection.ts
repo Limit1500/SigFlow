@@ -4,7 +4,7 @@ import { publicKeyService } from "./publicKey.service.js";
 export default function connectToSSO() {
   const socket = net.createConnection({
     host: process.env.SSO_HOSTNAME,
-    port: Number(process.env.SSO_PORT),
+    port: Number(process.env.SSO_CLIENT_PORT),
   });
 
   const credentials = {

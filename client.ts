@@ -3,7 +3,7 @@ import readline from "node:readline";
 
 const socket = net.createConnection({
   host: "localhost",
-  port: 4000,
+  port: Number(process.env.CLIENT_PORT),
 });
 
 const rl = readline.createInterface({
@@ -12,18 +12,26 @@ const rl = readline.createInterface({
   prompt: "sigflow> ",
 });
 
+let authenticated = false;
+
 socket.on("connect", () => {
   console.log("Connected to SigFlow");
-  rl.prompt();
 });
 
-rl.on("line", (input) => {
-  socket.write(input + "\n");
-  rl.prompt();
+rl.on("line", (input: string) => {
+  socket.write(`${input}\n`);
 });
 
-socket.on("data", (data) => {
-  process.stdout.write(data.toString());
+socket.on("data", (data: Buffer) => {
+  const message = data.toString();
+
+  process.stdout.write(message);
+
+  if (!authenticated && message.includes("Authentication successful")) {
+    authenticated = true;
+    rl.setPrompt("sigflow> ");
+  }
+
   rl.prompt();
 });
 

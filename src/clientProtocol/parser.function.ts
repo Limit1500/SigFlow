@@ -1,71 +1,76 @@
 import type { ParsedCommands } from "./commands.types.js";
 
 function parser(data: string): ParsedCommands {
-  const parts = data.split(" ");
+  const [command, identifier, ...args] = data.trim().split(/\s+/);
 
-  if (parts.length < 2) {
-    throw new Error();
+  if (!command || !identifier) {
+    throw new Error("Invalid command syntax");
   }
 
-  const command = parts.shift();
-  const identifier = parts.shift()!;
+  switch (command) {
+    case "CREATE_EVENT": {
+      if (args.length === 0) {
+        throw new Error("Event data is required");
+      }
 
-  if (command === "CREATE_EVENT") {
-    if (parts.length < 1) {
-      throw new Error();
+      return {
+        type: "BROKER",
+        command,
+        eventName: identifier,
+      };
     }
-    const data = parts.join(" ");
 
-    return {
-      type: "BROKER",
-      command,
-      eventName: identifier,
-    };
-  } else if (command === "ASSIGN_MICROSERVICE") {
-    if (parts.length !== 1) {
-      throw new Error();
+    case "ASSIGN_MICROSERVICE": {
+      if (args.length !== 1) {
+        throw new Error("Expected one event name");
+      }
+
+      return {
+        type: "BROKER",
+        command,
+        microserviceName: identifier,
+        eventName: args[0]!,
+      };
     }
-    return {
-      type: "BROKER",
-      command,
-      microserviceName: identifier,
-      eventName: parts[0]!,
-    };
-  } else if (command === "CREATE_MICROSERVICE") {
-    if (parts.length !== 1) {
-      throw new Error();
+
+    case "CREATE_MICROSERVICE": {
+      if (args.length !== 1) {
+        throw new Error("Expected one microservice secret");
+      }
+
+      return {
+        type: "BROKER",
+        command,
+        microserviceName: identifier,
+        microserviceSecret: args[0]!,
+      };
     }
-    return {
-      type: "BROKER",
-      command,
-      microserviceName: identifier,
-      microserviceSecret: parts[0]!,
-    };
-  } else if (command === "DELETE_MICROSERVICE") {
-    if (parts.length !== 0) {
-      throw new Error();
+
+    case "DELETE_MICROSERVICE":
+    case "DELETE_EVENT": {
+      if (args.length !== 0) {
+        throw new Error("Unexpected arguments");
+      }
+
+      return command === "DELETE_EVENT"
+        ? {
+            type: "BROKER",
+            command,
+            eventName: identifier,
+          }
+        : {
+            type: "BROKER",
+            command,
+            microserviceName: identifier,
+          };
     }
-    return {
-      type: "BROKER",
-      command,
-      microserviceName: identifier,
-    };
-  } else if (command === "DELETE_EVENT") {
-    if (parts.length !== 0) {
-      throw new Error();
-    }
-    return {
-      type: "BROKER",
-      command,
-      eventName: identifier,
-    };
-  } else {
-    const [command, ...eventInfo] = data.split(" ");
-    return {
-      type: "USER",
-      command: command!,
-      eventInfo: eventInfo.join(" "),
-    };
+
+    default:
+      return {
+        type: "USER",
+        command,
+        eventInfo: [identifier, ...args].join(" "),
+      };
   }
 }
 

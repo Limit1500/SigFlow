@@ -1,6 +1,6 @@
 import net from "node:net";
 import authMicroservice from "../middlewares/auth/microservices.js";
-import { validateMicroserviceCredentials } from "../validation/microserviceCredentials.js";
+import { validateCredentials } from "../validation/string.js";
 
 export const connectedMicroservices = new Map<number, net.Socket>();
 
@@ -21,7 +21,7 @@ export function startMicroservicesServer() {
     socket.on("data", async (data: Buffer) => {
       try {
         if (microserviceId === null) {
-          const [name, secret] = validateMicroserviceCredentials(data);
+          const [name, secret] = validateCredentials(data);
 
           const authenticatedId = await authMicroservice(name, secret);
 
