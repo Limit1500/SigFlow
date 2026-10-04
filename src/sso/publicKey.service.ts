@@ -1,4 +1,11 @@
-import type { PublicKeyType } from "../types/publicKey.type.js";
+export type PublicKeyType = {
+  kty: string;
+  use: string;
+  alg: string;
+  kid: string;
+  n: string;
+  e: string;
+};
 
 class PublicKeyService {
   private keys: PublicKeyType[] = [];
