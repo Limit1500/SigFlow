@@ -7,15 +7,6 @@ export default function connectToSSO() {
     port: Number(process.env.SSO_CLIENT_PORT),
   });
 
-  const credentials = {
-    name: process.env.BROKER_NAME,
-    secret: process.env.BROKER_SECRET,
-  };
-
-  socket.on("connect", () => {
-    socket.write(`${credentials.name} ${credentials.secret}\n`);
-  });
-
   socket.on("data", (data) => {
     try {
       const publicKeys = JSON.parse(data.toString());
@@ -32,7 +23,7 @@ export default function connectToSSO() {
 
   socket.on("close", (hadError) => {
     console.log(
-      `SSO connection closed${hadError ? " because of an error" : ""}`
+      `SSO connection closed${hadError ? " because of an error" : ""}`,
     );
   });
 }

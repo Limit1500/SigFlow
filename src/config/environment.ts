@@ -4,8 +4,6 @@ const requiredVariables = [
   "CLIENT_PORT",
   "MICROSERVICES_PORT",
   "SSO_CLIENT_PORT",
-  "BROKER_NAME",
-  "BROKER_SECRET",
   "SSO_USER_PORT",
 ] as const;
 

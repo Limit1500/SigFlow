@@ -76,9 +76,6 @@ SSO_PORT=4002
 
 CLIENT_PORT=4000
 MICROSERVICES_PORT=4001
-
-BROKER_NAME="sigflow"
-BROKER_SECRET="your-broker-secret"
 ```
 
 Install dependencies and start the application:
