@@ -1,10 +1,9 @@
 export type PublicKeyType = {
-  kty: string;
-  use: string;
-  alg: string;
   kid: string;
-  n: string;
-  e: string;
+  publicKey: string;
+  kty: string;
+  alg: string;
+  use: string;
 };
 
 class PublicKeyService {

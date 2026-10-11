@@ -35,7 +35,7 @@ class DatabaseService {
   static async createMicroservice(
     name: string,
     secret: string,
-    userId: number
+    userId: number,
   ) {
     return await prisma.Microservices.create({
       data: {
@@ -60,7 +60,7 @@ class DatabaseService {
   static async linkMicroserviceToEvent(
     microserviceName: string,
     eventName: string,
-    userId: number
+    userId: number,
   ) {
     return await prisma.Microservices.update({
       where: {
@@ -108,6 +108,22 @@ class DatabaseService {
     });
 
     return microservice?.userId ?? null;
+  }
+
+  static async getClientById(clientId: number) {
+    return prisma.Users.findUnique({
+      where: {
+        id: clientId,
+      },
+    });
+  }
+
+  static async createClient(clientId: number) {
+    return prisma.Users.create({
+      data: {
+        id: clientId,
+      },
+    });
   }
 }
 

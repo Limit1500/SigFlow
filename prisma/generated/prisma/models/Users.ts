@@ -184,14 +184,14 @@ export type UsersWhereInput = {
   OR?: Prisma.UsersWhereInput[]
   NOT?: Prisma.UsersWhereInput | Prisma.UsersWhereInput[]
   id?: Prisma.IntFilter<"Users"> | number
-  microservices?: Prisma.MicroservicesListRelationFilter
   events?: Prisma.EventsListRelationFilter
+  microservices?: Prisma.MicroservicesListRelationFilter
 }
 
 export type UsersOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  microservices?: Prisma.MicroservicesOrderByRelationAggregateInput
   events?: Prisma.EventsOrderByRelationAggregateInput
+  microservices?: Prisma.MicroservicesOrderByRelationAggregateInput
 }
 
 export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -199,8 +199,8 @@ export type UsersWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UsersWhereInput | Prisma.UsersWhereInput[]
   OR?: Prisma.UsersWhereInput[]
   NOT?: Prisma.UsersWhereInput | Prisma.UsersWhereInput[]
-  microservices?: Prisma.MicroservicesListRelationFilter
   events?: Prisma.EventsListRelationFilter
+  microservices?: Prisma.MicroservicesListRelationFilter
 }, "id">
 
 export type UsersOrderByWithAggregationInput = {
@@ -221,26 +221,26 @@ export type UsersScalarWhereWithAggregatesInput = {
 
 export type UsersCreateInput = {
   id: number
-  microservices?: Prisma.MicroservicesCreateNestedManyWithoutUserInput
   events?: Prisma.EventsCreateNestedManyWithoutUserInput
+  microservices?: Prisma.MicroservicesCreateNestedManyWithoutUserInput
 }
 
 export type UsersUncheckedCreateInput = {
   id: number
-  microservices?: Prisma.MicroservicesUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventsUncheckedCreateNestedManyWithoutUserInput
+  microservices?: Prisma.MicroservicesUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UsersUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  microservices?: Prisma.MicroservicesUpdateManyWithoutUserNestedInput
   events?: Prisma.EventsUpdateManyWithoutUserNestedInput
+  microservices?: Prisma.MicroservicesUpdateManyWithoutUserNestedInput
 }
 
 export type UsersUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  microservices?: Prisma.MicroservicesUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventsUncheckedUpdateManyWithoutUserNestedInput
+  microservices?: Prisma.MicroservicesUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UsersCreateManyInput = {
@@ -394,13 +394,13 @@ export type UsersUncheckedUpdateWithoutMicroservicesInput = {
  */
 
 export type UsersCountOutputType = {
-  microservices: number
   events: number
+  microservices: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  microservices?: boolean | UsersCountOutputTypeCountMicroservicesArgs
   events?: boolean | UsersCountOutputTypeCountEventsArgs
+  microservices?: boolean | UsersCountOutputTypeCountMicroservicesArgs
 }
 
 /**
@@ -416,22 +416,22 @@ export type UsersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountMicroservicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MicroservicesWhereInput
+export type UsersCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventsWhereInput
 }
 
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.EventsWhereInput
+export type UsersCountOutputTypeCountMicroservicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MicroservicesWhereInput
 }
 
 
 export type UsersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  microservices?: boolean | Prisma.Users$microservicesArgs<ExtArgs>
   events?: boolean | Prisma.Users$eventsArgs<ExtArgs>
+  microservices?: boolean | Prisma.Users$microservicesArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -449,8 +449,8 @@ export type UsersSelectScalar = {
 
 export type UsersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id", ExtArgs["result"]["users"]>
 export type UsersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  microservices?: boolean | Prisma.Users$microservicesArgs<ExtArgs>
   events?: boolean | Prisma.Users$eventsArgs<ExtArgs>
+  microservices?: boolean | Prisma.Users$microservicesArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UsersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -459,8 +459,8 @@ export type UsersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $UsersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Users"
   objects: {
-    microservices: Prisma.$MicroservicesPayload<ExtArgs>[]
     events: Prisma.$EventsPayload<ExtArgs>[]
+    microservices: Prisma.$MicroservicesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -858,8 +858,8 @@ readonly fields: UsersFieldRefs;
  */
 export interface Prisma__UsersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  microservices<T extends Prisma.Users$microservicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Users$microservicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MicroservicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.Users$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Users$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  microservices<T extends Prisma.Users$microservicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Users$microservicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MicroservicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1283,30 +1283,6 @@ export type UsersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Users.microservices
- */
-export type Users$microservicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Microservices
-   */
-  select?: Prisma.MicroservicesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Microservices
-   */
-  omit?: Prisma.MicroservicesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MicroservicesInclude<ExtArgs> | null
-  where?: Prisma.MicroservicesWhereInput
-  orderBy?: Prisma.MicroservicesOrderByWithRelationInput | Prisma.MicroservicesOrderByWithRelationInput[]
-  cursor?: Prisma.MicroservicesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MicroservicesScalarFieldEnum | Prisma.MicroservicesScalarFieldEnum[]
-}
-
-/**
  * Users.events
  */
 export type Users$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1328,6 +1304,30 @@ export type Users$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.EventsScalarFieldEnum | Prisma.EventsScalarFieldEnum[]
+}
+
+/**
+ * Users.microservices
+ */
+export type Users$microservicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Microservices
+   */
+  select?: Prisma.MicroservicesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Microservices
+   */
+  omit?: Prisma.MicroservicesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MicroservicesInclude<ExtArgs> | null
+  where?: Prisma.MicroservicesWhereInput
+  orderBy?: Prisma.MicroservicesOrderByWithRelationInput | Prisma.MicroservicesOrderByWithRelationInput[]
+  cursor?: Prisma.MicroservicesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MicroservicesScalarFieldEnum | Prisma.MicroservicesScalarFieldEnum[]
 }
 
 /**

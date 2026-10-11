@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import net from "node:net";
 import readline from "node:readline";
 
@@ -19,7 +21,7 @@ socket.on("connect", () => {
 });
 
 rl.on("line", (input: string) => {
-  socket.write(`${input}\n`);
+  socket.write(`${input.trim()}\n`);
 });
 
 socket.on("data", (data: Buffer) => {

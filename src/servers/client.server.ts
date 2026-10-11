@@ -4,25 +4,31 @@ import type { ConfigCommands } from "../clientProtocol/commands.types.js";
 import { validateToken } from "../validation/string.js";
 import { handleConfigTask } from "../clientProtocol/commands.service.js";
 import { configParser } from "../clientProtocol/parser.service.js";
+import DatabaseService from "../database/database.service.js";
 
 export default function startClientServer() {
   const server = net.createServer((socket) => {
-    let userId: number | null = null;
+    let clientId: number | null = null;
 
     console.log("Client connected");
     socket.write("Insert authentification token: ");
 
     socket.on("data", async (data: Buffer) => {
       try {
-        if (userId === null) {
+        if (clientId === null) {
           const token = validateToken(data);
-          userId = await authClient(token);
+          clientId = await authClient(token);
 
-          socket.write("Authentication successful.\n");
+          if (!(await DatabaseService.getClientById(clientId))) {
+            await DatabaseService.createClient(clientId);
+          }
+          console.log("Client authentificated");
+          socket.write("Authentication successful\n");
         } else {
           const message = data.toString().trim();
           const task: ConfigCommands = configParser(message);
-          await handleConfigTask(task, userId);
+          await handleConfigTask(task, clientId);
+          socket.write("Executed\n");
         }
       } catch (error: unknown) {
         if (error instanceof Error) {

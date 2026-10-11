@@ -13,7 +13,6 @@ export function startMicroservicesServer() {
     let microserviceId: number | null = null;
 
     console.log("New microservice connection");
-
     socket.write("Insert your credentials:\n");
 
     const removeMicroservice = () => {
@@ -36,6 +35,8 @@ export function startMicroservicesServer() {
           microserviceId = authenticatedId;
 
           connectedMicroservices.set(microserviceId, socket);
+
+          socket.write("Microservice authentificated");
         } else {
           const message = data.toString().trim();
           const task: FlagCommand = flagParser(message);
@@ -43,6 +44,7 @@ export function startMicroservicesServer() {
             microserviceId
           );
           await handleFlagTask(task, userId);
+          socket.write("Executed");
         }
       } catch (error: unknown) {
         if (error instanceof Error) {

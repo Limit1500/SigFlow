@@ -7,10 +7,13 @@ export default function connectToSSO() {
     port: Number(process.env.SSO_CLIENT_PORT),
   });
 
+  socket.on("connect", () => {
+    console.log("Connected to SSO");
+  });
+
   socket.on("data", (data) => {
     try {
       const publicKeys = JSON.parse(data.toString());
-
       publicKeyService.setKeys(publicKeys);
     } catch (error) {
       console.error("Invalid public keys received from SSO:", error);
@@ -23,7 +26,7 @@ export default function connectToSSO() {
 
   socket.on("close", (hadError) => {
     console.log(
-      `SSO connection closed${hadError ? " because of an error" : ""}`,
+      `SSO connection closed${hadError ? " because of an error" : ""}`
     );
   });
 }
